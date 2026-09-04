@@ -1,47 +1,91 @@
-# 🎲 Jogo de Par ou Ímpar em Python com Estatísticas Persistentes
+# 🎲 Jogo de Par ou Ímpar em Python com Estatísticas Persistentes & Painel Web
 
-Um joguinho clássico e direto de **Par ou Ímpar** feito em Python que calcula e exibe as **chances exatas de vitória** e armazena automaticamente o **histórico e estatísticas acumuladas** de todas as partidas em um arquivo `estatisticas.json`.
+Um joguinho clássico e direto de **Par ou Ímpar** feito em Python que calcula e exibe as **chances exatas de vitória** para ambos os jogadores e armazena automaticamente o **histórico e estatísticas acumuladas** em um arquivo `estatisticas.json`.
+
+O projeto conta também com um painel visual limpo em `index.html` para acompanhar o desempenho das partidas pelo navegador!
 
 ---
 
 ## 🎯 Funcionalidades
 
 1. **Cálculo de Probabilidades**:
-   - Espaço amostral exato para qualquer intervalo escolhido (0 a 5, 1 a 5, 0 a 10 ou personalizado).
-   - Mostra a porcentagem exata de chance de vitória de cada jogador.
-   - Demonstra que no intervalo de 1 a 5 (sem zero) quem joga PAR tem 52% de chance (13 combinações) contra 48% de ÍMPAR (12 combinações).
+   - Calcula o espaço amostral exato para qualquer intervalo escolhido (0 a 5, 1 a 5, 0 a 10 ou personalizado).
+   - Mostra a porcentagem exata de chance de vitória de cada jogador antes e durante as partidas.
+   - Demonstra a curiosidade matemática: jogando de **1 a 5 (sem zero)**, quem escolhe **PAR tem 52% de chance (13 combinações)** contra **48% de ÍMPAR (12 combinações)**!
 
-2. **Armazenamento Automático de Estatísticas**:
-   - Ao final de cada partida, os dados são salvos automaticamente no arquivo `estatisticas.json`.
-   - Registra total de partidas, total de rodadas, vitórias de cada jogador, quantas somas deram PAR vs ÍMPAR e o detalhe de cada jogada.
+2. **Armazenamento Automático em JSON**:
+   - Cada partida finalizada é registrada automaticamente em [`estatisticas.json`](estatisticas.json).
+   - Salva data/hora, intervalo usado, total de rodadas, placar, vencedor e as jogadas individuais.
 
-3. **Visualização do Histórico**:
-   - Menu interativo com opção direta para ver estatísticas acumuladas e histórico das últimas partidas.
-   - Opção para zerar as estatísticas quando desejar recomeçar.
+3. **Painel Visual Web (`index.html`)**:
+   - Interface limpa e moderna para visualizar as estatísticas com cards de KPIs, barras comparativas de aproveitamento e lista de partidas.
 
 ---
 
-## 🚀 Como Executar
+## 🎮 Como Jogar pelo Terminal
+
+Basta executar no terminal:
 
 ```bash
 python main.py
 ```
 
-### Menu Principal:
+### Menu Principal do Jogo:
 ```text
 =======================================================
           JOGO DE PAR OU ÍMPAR COM ESTATÍSTICAS
 =======================================================
 1 - Jogar Partida
-2 - Ver Histórico & Estatísticas Acumuladas
-3 - Zerar Estatísticas
-4 - Sair
+2 - Ver Histórico no Terminal
+3 - Abrir Painel Visual no Navegador (index.html)
+4 - Zerar Estatísticas
+5 - Sair
 =======================================================
 ```
 
 ---
 
-## 📁 Onde os dados são salvos?
+## 🌐 Como Rodar o Painel Web com `server.py`
 
-As estatísticas são salvas no arquivo:
-- `estatisticas.json` (no mesmo diretório do jogo).
+### Por que usar o `server.py`?
+Quando você abre um arquivo HTML dando duplo clique direto no Windows (`file:///...`), por motivos de segurança (política de **CORS**), os navegadores modernos bloqueiam o comando `fetch()` de ler arquivos locais como o `estatisticas.json`.
+
+Ao rodar o servidor local com o `server.py`, a página ganha permissão para ler o `estatisticas.json` em tempo real via protocolo `http://`!
+
+### Passo a passo para rodar:
+
+1. **Inicie o servidor local no terminal:**
+   ```bash
+   python server.py
+   ```
+
+2. **Acesso automático:**
+   - O script iniciará o servidor na porta `8000` e **abrirá automaticamente o seu navegador** no endereço:
+     👉 **http://localhost:8000**
+   - O `index.html` carregará na hora todos os dados de vitórias, rodadas e histórico de partidas!
+
+3. **Atualizando os dados:**
+   - Enquanto o servidor estiver rodando, continue jogando suas partidas no terminal (`python main.py`).
+   - Para ver os novos resultados no navegador, basta clicar no botão **"Atualizar Dados"** no topo da página.
+
+4. **Para encerrar o servidor:**
+   - No terminal onde o `server.py` estiver rodando, pressione `Ctrl + C`.
+
+---
+
+> 💡 **Dica (Comando nativo alternativo):**  
+> Você também pode subir o servidor nativo de uma linha do Python sem precisar de scripts extras:
+> ```bash
+> python -m http.server 8000
+> ```
+> E em seguida acessar `http://localhost:8000` no seu navegador.
+
+---
+
+## 📁 Estrutura de Arquivos
+
+- `main.py`: Jogo principal no terminal com menus, cálculo de probabilidade e registro de dados.
+- `server.py`: Servidor HTTP leve para servir o painel web e liberar a leitura do JSON sem restrições de CORS.
+- `index.html`: Dashboard visual moderno para acompanhar o histórico de partidas.
+- `estatisticas.json`: Base de dados acumulada de todas as partidas jogadas.
+- `core/`: Módulos de regras e cálculo combinatório analítico.
