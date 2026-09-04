@@ -1,0 +1,15 @@
+# =====================================================================
+# JOGO DE PAR OU ÍMPAR - REQUISITOS
+# =====================================================================
+# Este projeto foi construído utilizando 100% da Biblioteca Padrão do Python.
+# Nenhuma dependência externa precisa ser instalada via pip!
+#
+# Módulos nativos utilizados:
+# - random (sorteio de números do computador)
+# - json (leitura e gravação do histórico de estatísticas)
+# - http.server & socketserver (servidor local para o painel web)
+# - webbrowser (abertura automática do navegador)
+# - datetime (registro de data e hora das partidas)
+# - os & sys (gerenciamento de caminhos e codificação do terminal)
+#
+# Versão recomendada: Python 3.8 ou superior

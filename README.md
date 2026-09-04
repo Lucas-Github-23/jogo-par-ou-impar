@@ -22,7 +22,38 @@ O projeto conta também com um painel visual limpo em `index.html` para acompanh
 
 ---
 
-## 🎮 Como Jogar pelo Terminal
+## 📦 Pré-requisitos & Instalação de Bibliotecas
+
+### Preciso instalar alguma biblioteca via `pip`?
+**Não!** O projeto foi desenvolvido de forma inteligente utilizando **100% da Biblioteca Padrão do Python (Standard Library)**. 
+
+Isso significa que:
+- **Zero instalações com `pip`:** Não é necessário rodar `pip install` para nenhuma dependência.
+- Todas as bibliotecas utilizadas (`random`, `json`, `http.server`, `socketserver`, `webbrowser`, `datetime`, `os`, `sys`) já vêm embutidas por padrão no Python 3.
+
+### Como garantir que o Python está instalado:
+O único requisito é ter o **Python 3.8 ou superior** instalado na máquina.
+
+1. **Verifique se você já possui o Python:**
+   Abra o seu terminal (Prompt de Comando ou PowerShell) e digite:
+   ```bash
+   python --version
+   ```
+   *(Se exibir `Python 3.x.x`, você já está pronto para rodar!)*
+
+2. **Caso precise instalar o Python:**
+   - **Windows:** Baixe pelo site oficial [python.org](https://www.python.org/downloads/) (marque a caixa *"Add python.exe to PATH"* durante a instalação) ou instale via PowerShell:
+     ```bash
+     winget install Python.Python.3.11
+     ```
+   - **Linux (Ubuntu/Debian):**
+     ```bash
+     sudo apt update && sudo apt install python3
+     ```
+   - **macOS:**
+     ```bash
+     brew install python
+     ```
 
 Basta executar no terminal:
 
