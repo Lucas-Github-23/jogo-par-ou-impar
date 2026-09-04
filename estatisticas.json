@@ -1,0 +1,39 @@
+{
+  "total_partidas": 1,
+  "total_rodadas": 2,
+  "vitorias_jogador": 1,
+  "vitorias_computador": 1,
+  "empates": 1,
+  "total_somas_pares": 0,
+  "total_somas_impares": 2,
+  "historico_partidas": [
+    {
+      "partida_numero": 1,
+      "data_hora": "03/09/2026 21:46:16",
+      "intervalo": "0 a 5 dedos",
+      "placar": "Você 1 x 1 Computador",
+      "vencedor": "Empate",
+      "total_rodadas": 2,
+      "detalhes": [
+        {
+          "rodada": 1,
+          "num_jogador": 2,
+          "num_computador": 1,
+          "soma": 3,
+          "resultado": "ÍMPAR",
+          "escolha_jogador": "PAR",
+          "vencedor_rodada": "Computador"
+        },
+        {
+          "rodada": 2,
+          "num_jogador": 3,
+          "num_computador": 0,
+          "soma": 3,
+          "resultado": "ÍMPAR",
+          "escolha_jogador": "ÍMPAR",
+          "vencedor_rodada": "Você"
+        }
+      ]
+    }
+  ]
+}

@@ -1,51 +1,47 @@
-# 🎲 Jogo de Par ou Ímpar em Python com Cálculo de Probabilidade
+# 🎲 Jogo de Par ou Ímpar em Python com Estatísticas Persistentes
 
-Um joguinho clássico e direto de **Par ou Ímpar** feito em Python que calcula e exibe as **chances exatas de vitória** para ambos os jogadores antes e durante as partidas.
+Um joguinho clássico e direto de **Par ou Ímpar** feito em Python que calcula e exibe as **chances exatas de vitória** e armazena automaticamente o **histórico e estatísticas acumuladas** de todas as partidas em um arquivo `estatisticas.json`.
 
 ---
 
-## 🎯 Como Funciona
+## 🎯 Funcionalidades
 
 1. **Cálculo de Probabilidades**:
-   - O jogo analisa o intervalo de números permitidos (por exemplo, de 0 a 5 dedos).
-   - Calcula o número total de combinações possíveis (espaço amostral).
-   - Conta quantas somas resultam em **PAR** e quantas em **ÍMPAR**.
+   - Espaço amostral exato para qualquer intervalo escolhido (0 a 5, 1 a 5, 0 a 10 ou personalizado).
    - Mostra a porcentagem exata de chance de vitória de cada jogador.
+   - Demonstra que no intervalo de 1 a 5 (sem zero) quem joga PAR tem 52% de chance (13 combinações) contra 48% de ÍMPAR (12 combinações).
 
-2. **Curiosidade Matemática**:
-   - No clássico **0 a 5 dedos (com zero)**: São 36 combinações (18 pares e 18 ímpares) $\implies$ **50% vs 50%**.
-   - No clássico **1 a 5 dedos (sem zero)**: Há 3 números ímpares (1, 3, 5) e 2 pares (2, 4) para cada um. O resultado é 13 somas pares e 12 ímpares $\implies$ **52% para PAR contra 48% para ÍMPAR**!
+2. **Armazenamento Automático de Estatísticas**:
+   - Ao final de cada partida, os dados são salvos automaticamente no arquivo `estatisticas.json`.
+   - Registra total de partidas, total de rodadas, vitórias de cada jogador, quantas somas deram PAR vs ÍMPAR e o detalhe de cada jogada.
 
-3. **Partidas**:
-   - Escolha Par ou Ímpar.
-   - Digite o seu número.
-   - O computador escolhe o dele.
-   - O jogo calcula a soma, confere a paridade e atualiza o placar.
+3. **Visualização do Histórico**:
+   - Menu interativo com opção direta para ver estatísticas acumuladas e histórico das últimas partidas.
+   - Opção para zerar as estatísticas quando desejar recomeçar.
 
 ---
 
 ## 🚀 Como Executar
 
-Não precisa instalar nenhuma biblioteca adicional, basta ter o Python instalado:
-
 ```bash
 python main.py
 ```
 
----
-
-## 📋 Exemplo de Execução no Terminal
-
+### Menu Principal:
 ```text
 =======================================================
-           ANÁLISE DE PROBABILIDADES
+          JOGO DE PAR OU ÍMPAR COM ESTATÍSTICAS
 =======================================================
-• Intervalo do Jogador:    0 a 5 (3 pares, 3 ímpares)
-• Intervalo do Computador: 0 a 5 (3 pares, 3 ímpares)
-• Espaço Amostral:         36 combinações possíveis
--------------------------------------------------------
-• Chance de dar PAR:   18/36  (50.0%)
-• Chance de dar ÍMPAR: 18/36  (50.0%)
-⚖️  O jogo é 100% equilibrado (50% vs 50%).
+1 - Jogar Partida
+2 - Ver Histórico & Estatísticas Acumuladas
+3 - Zerar Estatísticas
+4 - Sair
 =======================================================
 ```
+
+---
+
+## 📁 Onde os dados são salvos?
+
+As estatísticas são salvas no arquivo:
+- `estatisticas.json` (no mesmo diretório do jogo).
