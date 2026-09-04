@@ -380,6 +380,18 @@ def jogar():
     registrar_partida(historico_rodadas, vitorias_jogador, vitorias_computador, intervalo_str)
 
 
+import webbrowser
+
+def abrir_painel_html():
+    """Abre o arquivo index.html no navegador padrão."""
+    caminho_html = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
+    if os.path.exists(caminho_html):
+        print(f"\n[✓] Abrindo painel visual no seu navegador: {caminho_html}")
+        webbrowser.open(f"file:///{caminho_html.replace(os.sep, '/')}")
+    else:
+        print("\n[!] Arquivo index.html não encontrado.")
+
+
 def menu_principal():
     """Menu principal que permite jogar, ver histórico e gerenciar estatísticas."""
     while True:
@@ -387,24 +399,27 @@ def menu_principal():
         print("          JOGO DE PAR OU ÍMPAR COM ESTATÍSTICAS")
         print("=" * 55)
         print("1 - Jogar Partida")
-        print("2 - Ver Histórico & Estatísticas Acumuladas")
-        print("3 - Zerar Estatísticas")
-        print("4 - Sair")
+        print("2 - Ver Histórico no Terminal")
+        print("3 - Abrir Painel Visual no Navegador (index.html)")
+        print("4 - Zerar Estatísticas")
+        print("5 - Sair")
         print("=" * 55)
 
-        opcao = input("Escolha uma opção (1-4) [1]: ").strip()
+        opcao = input("Escolha uma opção (1-5) [1]: ").strip()
 
         if opcao in ["1", ""]:
             jogar()
         elif opcao == "2":
             exibir_estatisticas()
         elif opcao == "3":
+            abrir_painel_html()
+        elif opcao == "4":
             zerar_estatisticas()
-        elif opcao in ["4", "sair", "exit", "q"]:
+        elif opcao in ["5", "sair", "exit", "q"]:
             print("\nObrigado por jogar! Até a próxima!\n")
             break
         else:
-            print("Opção inválida! Escolha entre 1 e 4.")
+            print("Opção inválida! Escolha entre 1 e 5.")
 
 
 if __name__ == "__main__":

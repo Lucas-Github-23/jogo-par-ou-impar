@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas • Par ou Ímpar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0b0f19;
+            --bg-card: #131b2e;
+            --bg-card-subtle: #1a243b;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --accent-rose: #fb7185;
+            --accent-amber: #fbbf24;
+            --font-main: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            padding: 32px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .title-group h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .title-group p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: var(--bg-card-subtle);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: #042f2e;
+            border-color: var(--accent-blue);
+        }
+
+        .btn-primary:hover {
+            background: #7dd3fc;
+        }
+
+        /* Cards Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 700px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            line-height: 1;
+        }
+
+        .metric-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .val-you { color: var(--accent-green); }
+        .val-pc { color: var(--accent-rose); }
+        .val-blue { color: var(--accent-blue); }
+
+        /* Bars Section */
+        .bars-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .bar-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .bar-track {
+            height: 14px;
+            background: var(--bg-card-subtle);
+            border-radius: 999px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .bar-segment {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .seg-green { background: var(--accent-green); }
+        .seg-rose { background: var(--accent-rose); }
+        .seg-blue { background: var(--accent-blue); }
+        .seg-amber { background: var(--accent-amber); }
+
+        /* History Table / Match Cards */
+        .history-section h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .match-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .match-card:hover {
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .match-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .match-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .match-num {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .match-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .match-sub {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .badge-winner {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .win-you {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+
+        .win-pc {
+            background: rgba(251, 113, 133, 0.15);
+            color: var(--accent-rose);
+            border: 1px solid rgba(251, 113, 133, 0.3);
+        }
+
+        .win-empate {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--text-secondary);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+        }
+
+        .empty-state p {
+            margin-top: 6px;
+            font-size: 0.875rem;
+        }
+
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="title-group">
+                <h1>Painel de Estatísticas</h1>
+                <p>Histórico e desempenho de partidas do Jogo de Par ou Ímpar</p>
+            </div>
+            <div class="header-actions">
+                <input type="file" id="file-input" accept=".json">
+                <button class="btn" onclick="document.getElementById('file-input').click()">
+                    Carregar JSON Manual
+                </button>
+                <button class="btn btn-primary" onclick="carregarDados()">
+                    Atualizar Dados
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Grid -->
+        <div class="metrics-grid">
+            <div class="card">
+                <div class="metric-label">Total de Partidas</div>
+                <div class="metric-value val-blue" id="val-partidas">0</div>
+                <div class="metric-sub" id="sub-partidas">Concluídas</div>
+            </div>
+            <div class="card">
+                <div class="metric-label">Total de Rodadas</div>
+                <div class="metric-value" id="val-rodadas">0</div>
+                <div class="metric-sub" id="sub-rodadas">Disputadas</div>
+            </div>
+            <div class="card">
+                <div class="metric-label">Vitórias Você</div>
+                <div class="metric-value val-green" id="val-vitorias-you">0</div>
+                <div class="metric-sub" id="sub-pct-you">0.0% de aproveitamento</div>
+            </div>
+            <div class="card">
+                <div class="metric-label">Vitórias PC</div>
+                <div class="metric-value val-rose" id="val-vitorias-pc">0</div>
+                <div class="metric-sub" id="sub-pct-pc">0.0% de aproveitamento</div>
+            </div>
+        </div>
+
+        <!-- Comparative Progress Bars -->
+        <div class="card bars-container">
+            <div class="bar-wrapper">
+                <div class="bar-header">
+                    <span>Taxa de Vitória: Você (<span id="txt-bar-you" style="color: var(--accent-green)">0%</span>) vs Computador (<span id="txt-bar-pc" style="color: var(--accent-rose)">0%</span>)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-segment seg-green" id="bar-you" style="width: 50%;"></div>
+                    <div class="bar-segment seg-rose" id="bar-pc" style="width: 50%;"></div>
+                </div>
+            </div>
+
+            <div class="bar-wrapper">
+                <div class="bar-header">
+                    <span>Distribuição das Somas: PAR (<span id="txt-bar-par" style="color: var(--accent-blue)">0%</span>) vs ÍMPAR (<span id="txt-bar-impar" style="color: var(--accent-amber)">0%</span>)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-segment seg-blue" id="bar-par" style="width: 50%;"></div>
+                    <div class="bar-segment seg-amber" id="bar-impar" style="width: 50%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Match History -->
+        <div class="history-section">
+            <h2>Histórico de Partidas</h2>
+            <div class="match-list" id="match-list-container">
+                <div class="empty-state">
+                    <h3>Nenhuma partida encontrada</h3>
+                    <p>Jogue uma partida no terminal com <code>python main.py</code> para ver o histórico aqui.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function carregarDados() {
+            try {
+                const response = await fetch('estatisticas.json?t=' + new Date().getTime());
+                if (!response.ok) throw new Error('Não foi possível carregar estatisticas.json');
+                const data = await response.json();
+                renderizarEstatisticas(data);
+            } catch (err) {
+                console.warn('Fetch automático falhou (normal se aberto via file://):', err);
+            }
+        }
+
+        function renderizarEstatisticas(data) {
+            const totalPartidas = data.total_partidas || 0;
+            const totalRodadas = data.total_rodadas || 0;
+            const vitYou = data.vitorias_jogador || 0;
+            const vitPC = data.vitorias_computador || 0;
+            const parCount = data.total_somas_pares || 0;
+            const imparCount = data.total_somas_impares || 0;
+
+            document.getElementById('val-partidas').textContent = totalPartidas;
+            document.getElementById('val-rodadas').textContent = totalRodadas;
+            document.getElementById('val-vitorias-you').textContent = vitYou;
+            document.getElementById('val-vitorias-pc').textContent = vitPC;
+
+            const pctYou = totalRodadas > 0 ? ((vitYou / totalRodadas) * 100).toFixed(1) : '0.0';
+            const pctPC = totalRodadas > 0 ? ((vitPC / totalRodadas) * 100).toFixed(1) : '0.0';
+
+            document.getElementById('sub-pct-you').textContent = `${pctYou}% de aproveitamento`;
+            document.getElementById('sub-pct-pc').textContent = `${pctPC}% de aproveitamento`;
+
+            // Barras de progresso
+            const barYouPct = (vitYou + vitPC > 0) ? (vitYou / (vitYou + vitPC) * 100) : 50;
+            const barPcPct = 100 - barYouPct;
+            document.getElementById('bar-you').style.width = `${barYouPct}%`;
+            document.getElementById('bar-pc').style.width = `${barPcPct}%`;
+            document.getElementById('txt-bar-you').textContent = `${pctYou}%`;
+            document.getElementById('txt-bar-pc').textContent = `${pctPC}%`;
+
+            const sumTotal = parCount + imparCount;
+            const barParPct = (sumTotal > 0) ? (parCount / sumTotal * 100) : 50;
+            const barImparPct = 100 - barParPct;
+            document.getElementById('bar-par').style.width = `${barParPct}%`;
+            document.getElementById('bar-impar').style.width = `${barImparPct}%`;
+            document.getElementById('txt-bar-par').textContent = `${barParPct.toFixed(1)}% (${parCount})`;
+            document.getElementById('txt-bar-impar').textContent = `${barImparPct.toFixed(1)}% (${imparCount})`;
+
+            // Lista de Partidas
+            const container = document.getElementById('match-list-container');
+            const partidas = data.historico_partidas || [];
+
+            if (partidas.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Nenhuma partida encontrada</h3>
+                        <p>Jogue uma partida no terminal com <code>python main.py</code> para ver o histórico aqui.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            partidas.slice().reverse().forEach(p => {
+                let badgeClass = 'win-empate';
+                let winnerText = p.vencedor || 'Empate';
+
+                if (winnerText.toLowerCase().includes('você') || winnerText.toLowerCase().includes('voce')) {
+                    badgeClass = 'win-you';
+                } else if (winnerText.toLowerCase().includes('computador')) {
+                    badgeClass = 'win-pc';
+                }
+
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                card.innerHTML = `
+                    <div class="match-main">
+                        <div class="match-header">
+                            <span class="match-num">Partida #${p.partida_numero}</span>
+                            <span class="match-date">${p.data_hora}</span>
+                        </div>
+                        <div class="match-sub">
+                            Intervalo: <strong>${p.intervalo}</strong> • Placar: <strong>${p.placar}</strong> (${p.total_rodadas} rodadas)
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge-winner ${badgeClass}">${winnerText}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Suporte a carregamento de arquivo manual caso aberto via file://
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    renderizarEstatisticas(data);
+                } catch (err) {
+                    alert('Arquivo JSON inválido!');
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Carregar automaticamente na inicialização
+        carregarDados();
+    </script>
+</body>
+</html>
